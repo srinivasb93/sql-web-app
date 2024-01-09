@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Srini's Analytics App</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Add this line to link your styles.css file -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: rgb(228, 234, 237);
+    }
+    select, button {
+      margin: 10px 0;
+    }
+    #tableContainer {
+      margin-top: 40px;
+      overflow: auto;
+      max-height: 600px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+      background-color: #f2f2f2;
+    }
+    th {
+      background-color: #3498db;
+      color: white;
+      position: -webkit-sticky;
+      position: static;
+      top: 0;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1> My Analytics App</h1>
+
+  <button id="loadDataButton">Load Daily Data</button>
+
+  <label for="databases">Select Database:</label>
+  <select id="databases"></select>
+
+  <label for="tables">Select Table:</label>
+  <select id="tables"></select>
+
+  <label for="recordsPerPage">Records Per Page:</label>
+  <select id="recordsPerPage" onchange="getTableData()">
+    <option value="ALL">ALL</option>
+    <option value="10">10</option>
+    <option value="25">25</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+  </select>
+
+  <button onclick="getTableData()">Get Table Data</button>
+
+  <div id="tableContainer">
+    <table id="dataTable">
+      <!-- Table header will be dynamically generated in JavaScript -->
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div id="notificationModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeNotificationModal()">&times;</span>
+      <p id="notificationMessage"></p>
+    </div>
+  </div>
+
+  <div id="pagination"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./client.js"></script>
+</body>
+</html>

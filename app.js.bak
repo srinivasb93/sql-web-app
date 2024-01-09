@@ -1,0 +1,67 @@
+const express = require('express');
+const sql = require('mssql');
+const app = express();
+const port = 3000;
+
+// Serve static files from the public directory
+app.use(express.static(__dirname + '/public'));
+
+// SQL Server configuration
+// SQL Server configuration for Windows Authentication
+const config = {
+  server: 'IN01-9MCXZH3\\SQLEXPRESS',
+  database: 'master', // default database for fetching available databases
+  authentication: {
+    type: 'default',
+    options: {
+      userName: 'CAMNWK/sba400',
+      password: 'Newyear@jan1',
+      domain: 'CAMNWK.COM', // The domain of your Windows account
+    },
+  },
+  options: {
+    encrypt: true, // Use encryption (Recommended for security)
+    trustServerCertificate: true, // For self-signed certificates during development
+  },
+};
+
+// Middleware to handle JSON data
+app.use(express.json());
+
+// Root route
+app.get('/', (req, res) => {
+  res.send('Welcome to the SQL Web App!');
+});
+
+// API to get the list of databases
+app.get('/databases', async (req, res) => {
+  try {
+    const pool = await sql.connect(config);
+    const result = await pool.request().query('SELECT name FROM sys.databases');
+    const databases = result.recordset.map((record) => record.name);
+    res.json(databases);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// API to get table data from a specific database
+app.post('/tableData', async (req, res) => {
+  const { database, tableName } = req.body;
+  try {
+    const pool = await sql.connect({ ...config, database });
+    const result = await pool.request().query(`SELECT * FROM ${tableName}`);
+    const tableData = result.recordset;
+    res.json(tableData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
+

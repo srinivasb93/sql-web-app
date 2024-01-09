@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Web App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    select, button {
+      margin: 10px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>SQL Web App</h1>
+
+  <label for="databases">Select Database:</label>
+  <select id="databases"></select>
+
+  <label for="tables">Select Table:</label>
+  <select id="tables"></select>
+
+  <button onclick="getTableData()">Get Table Data</button>
+
+  <label>Show Data as Chart:</label>
+  <input type="radio" name="chartType" value="bar" checked> Bar
+  <input type="radio" name="chartType" value="pie"> Pie
+
+  <div id="chartContainer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/client.js"></script>
+</body>
+</html>

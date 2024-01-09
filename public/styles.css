@@ -1,0 +1,82 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: rgb(228, 234, 237);
+    text-align: center;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+  }
+  
+  select,
+  button {
+    margin-right: 25px;
+  }
+  
+  label {
+    margin-right: 10px;
+  }
+  
+  #tableContainer {
+    margin-top: 40px;
+    overflow: auto;
+    max-height: 600px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    background-color: #f2f2f2;
+  }
+  
+  th {
+    background-color: #3498db;
+    color: white;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+   
+    #notificationModal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    top: 20%;
+    transform: translateX(-50%);
+    width: 300px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+  }
+  .close {
+    color: white;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  #pagination {
+    margin-top: 20px;
+  }
+  .pagination-button {
+    background-color: #3498db;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+  }

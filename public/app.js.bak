@@ -1,0 +1,89 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const databasesDropdown = document.getElementById('databases');
+  const tablesDropdown = document.getElementById('tables');
+  const chartContainer = document.getElementById('chartContainer');
+
+  // Fetch databases and populate the dropdown
+  fetch('/databases')
+    .then((response) => response.json())
+    .then((databases) => {
+      databases.forEach((database) => {
+        const option = document.createElement('option');
+        option.value = database;
+        option.textContent = database;
+        databasesDropdown.appendChild(option);
+      });
+    });
+
+  // Fetch tables based on selected database
+  databasesDropdown.addEventListener('change', () => {
+    const selectedDatabase = databasesDropdown.value;
+    fetch('/tableData', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ database: selectedDatabase }),
+    })
+      .then((response) => response.json())
+      .then((tableData) => {
+        // Clear previous options
+        tablesDropdown.innerHTML = '';
+
+        // Populate tables dropdown
+        tableData.forEach((table) => {
+          const option = document.createElement('option');
+          option.value = table.name;
+          option.textContent = table.name;
+          tablesDropdown.appendChild(option);
+        });
+      });
+  });
+
+  // Get table data and display as a chart
+  window.getTableData = () => {
+    const selectedDatabase = databasesDropdown.value;
+    const selectedTable = tablesDropdown.value;
+    const chartType = document.querySelector('input[name="chartType"]:checked').value;
+
+    fetch('/tableData', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ database: selectedDatabase, tableName: selectedTable }),
+    })
+      .then((response) => response.json())
+      .then((tableData) => {
+        // Display data as a chart
+        displayChart(chartContainer, tableData, chartType);
+      });
+  };
+
+  // Function to display data as a chart
+  const displayChart = (container, data, chartType) => {
+    container.innerHTML = '';
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 400;
+    canvas.height = 300;
+    container.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+
+    const labels = data.map((row) => row.name);
+    const values = data.map((row) => row.value);
+
+    const chartData = {
+      labels,
+      datasets: [{
+        label: 'Chart Data',
+        data: values,
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      }],
+    };
+
+    const chartOptions = {
+      responsive: true,
